@@ -10,22 +10,9 @@
     </header>
 
     <div v-if="view === 'todos'" class="main-container">
-      <div class="todo-app">
-        <h1 class="todo-title">Todo List</h1>
-        <input type="text" v-model="newTodo" @keyup.enter="addTodo" placeholder="Add a new task" class="todo-input">
-        <ul class="todo-list">
-          <li v-for="(todo, index) in filteredTodos" :key="index" :class="{ completed: todo.completed }" class="todo-item">
-            <input type="checkbox" v-model="todo.completed" class="todo-checkbox">
-            <span @click="toggleCompleted(index)" class="todo-text" :class="{ 'completed-text': todo.completed }">{{ todo.text }}</span>
-            <button @click="removeTodo(index)" class="todo-remove">Remove</button>
-          </li>
-        </ul>
-        <div class="filter-container">
-          <input type="checkbox" id="showCompleted" v-model="showCompleted" class="show-completed" @change="filterTodos">
-          <label for="showCompleted" class="show-completed-label">Show Completed</label>
-        </div>
-      </div>
+      <TodoComponent :initialTodos="todos" @update-todos="updateTodos" />
     </div>
+
     <div v-else-if="view === 'posts'" class="posts-app">
       <h1 class="posts-title">User Posts</h1>
       <select v-model="selectedUser" @change="fetchPosts" class="user-select">
@@ -42,33 +29,24 @@
 </template>
 
 <script>
+import TodoComponent from './components/TodoComponent.vue';
+
 export default {
+  components: {
+    TodoComponent
+  },
   data() {
     return {
       view: 'todos',
-      newTodo: '',
       todos: [],
-      showCompleted: true,
       users: [],
       selectedUser: null,
       posts: []
     }
   },
   methods: {
-    addTodo() {
-      if (this.newTodo.trim() !== '') {
-        this.todos.push({ text: this.newTodo, completed: false });
-        this.newTodo = '';
-      }
-    },
-    removeTodo(index) {
-      this.todos.splice(index, 1);
-    },
-    toggleCompleted(index) {
-      this.todos[index].completed = !this.todos[index].completed;
-    },
-    filterTodos() {
-      return this.todos.filter(todo => this.showCompleted || !todo.completed);
+    updateTodos(updatedTodos) {
+      this.todos = updatedTodos;
     },
     async fetchUsers() {
       const response = await fetch('https://jsonplaceholder.typicode.com/users');
@@ -81,17 +59,11 @@ export default {
       }
     }
   },
-  computed: {
-    filteredTodos() {
-      return this.filterTodos();
-    }
-  },
   mounted() {
     this.fetchUsers();
   }
 }
 </script>
-
 <style scoped>
 body, html {
   margin: 0;
@@ -239,3 +211,4 @@ nav ul li.active {
   color: #666;
 }
 </style>
+

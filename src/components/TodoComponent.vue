@@ -13,6 +13,7 @@
         <input type="checkbox" id="showCompleted" v-model="showCompleted" class="show-completed" @change="filterTodos">
         <label for="showCompleted" class="show-completed-label">Show Completed</label>
       </div>
+      <slot></slot>
     </div>
   </template>
   

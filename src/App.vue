@@ -11,9 +11,8 @@
 
     <div v-if="view === 'todos'" class="main-container">
       <TodoComponent :initialTodos="todos" @update-todos="updateTodos">
-        <!-- Custom content passed to the TodoComponent's slot -->
         <div class="extra-content">
-          <p>Additional Content Below the Todo List</p>
+          <p>tugas pertemuan 11</p>
         </div>
       </TodoComponent>
     </div>

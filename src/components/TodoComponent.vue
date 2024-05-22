@@ -6,12 +6,12 @@
         <li v-for="(todo, index) in filteredTodos" :key="index" :class="{ completed: todo.completed }" class="todo-item">
           <input type="checkbox" v-model="todo.completed" class="todo-checkbox">
           <span @click="toggleCompleted(index)" class="todo-text" :class="{ 'completed-text': todo.completed }">{{ todo.text }}</span>
-          <button @click="removeTodo(index)" class="todo-remove">Remove</button>
+          <button @click="removeTodo(index)" class="todo-remove">hapus</button>
         </li>
       </ul>
       <div class="filter-container">
         <input type="checkbox" id="showCompleted" v-model="showCompleted" class="show-completed" @change="filterTodos">
-        <label for="showCompleted" class="show-completed-label">Show Completed</label>
+        <label for="showCompleted" class="show-completed-label">lihat yang sudah selesai</label>
       </div>
       <slot></slot>
     </div>
@@ -54,8 +54,4 @@
     }
   }
   </script>
-  
-  <style scoped>
-  /* Same CSS as before */
-  </style>
   
